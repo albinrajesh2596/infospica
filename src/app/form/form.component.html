@@ -1,0 +1,265 @@
+<div class="text-center">
+    <h1 class="bg-info text-light p-3 fw-bold">User Records</h1><br><br>
+</div>
+<table class="table table-primary table-striped table-hover ">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Date of Birth</th>
+            <th scope="col">Email</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of userRecords">
+            <td>{{user.userId}}</td>
+            <td>{{user.userName}}</td>
+            <td>{{user.userDOB}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.Salary}}</td>
+            <td>{{user.gender}}</td>
+            <td><button type="submit" class="btn btn-info text-center mb-5" data-bs-toggle="modal" data-bs-target="#myModal1" (click)="editUserRecord(user)">Edit</button></td>
+            <td><button type="submit" class="btn btn-danger mb-5" (click)="deleteUserRecord(user)">Delete</button></td>
+        </tr>
+
+    </tbody>
+</table>
+
+<!-- Button to Open the Modal -->
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal">
+        Create user Record
+    </button>
+</div>
+
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h2 class="modal-title">Create user Record</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form #userData="ngForm" (submit)="getData(userData)">
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 ">
+                                        <label>Id:</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="number" ngModel name="userId" #userid="ngModel" required
+                                            class="form-control" placeholder="UserId" aria-label="Username"
+                                            aria-describedby="basic-addon1">
+                                        <p class="text-danger float-start"
+                                            *ngIf="userid.errors?.['required'] && (userid.dirty)">*pleace enter
+                                            username</p>
+                                    </div>
+                                </div><br>
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Enter Name:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" ngModel name="userName" #username="ngModel" required
+                                                minlength="5" maxlength="15" class="form-control" placeholder="UserName"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                            <p class="text-danger float-start"
+                                                *ngIf="username.errors?.['required'] && (username.touched || username.dirty)">
+                                                *pleace enter
+                                                username</p>
+                                            <p class="text-danger float-start" *ngIf="username.errors?.['minlength']">
+                                                *pleace type minimum 5
+                                                charectors.</p>
+                                        </div>
+
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Enter Date of Birth:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="date" ngModel name="userDOB" #userdateofbirth="ngModel"
+                                                required class="form-control" placeholder="Date of Birth"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                            <p class="text-danger float-start"
+                                                *ngIf="userdateofbirth.errors?.['required'] && (userdateofbirth.dirty)">
+                                                *pleace enter your date of birth</p>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Enter Email:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="email" ngModel name="email" #useremail="ngModel" required
+                                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control"
+                                                placeholder="email" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                            <p class="text-danger float-start"
+                                                *ngIf="useremail.errors?.['required'] && (useremail.dirty)">*pleace
+                                                enter the email</p>
+                                            <p class="text-danger float-start" *ngIf="useremail.errors?.['pattern']">
+                                                *pleace enter the valid email</p>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Enter Salary INR:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="number" ngModel required name="Salary" #usersalary="ngModel"
+                                                class="form-control" placeholder="INR" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                            <p class="text-danger float-start"
+                                                *ngIf="usersalary.errors?.['required'] && (usersalary.dirty)">*pleace
+                                                enter the amount</p>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <label>Gender:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="radio" ngModel required #gender="ngModel" value="Male"
+                                                name="gender"><span>Male</span>&nbsp;
+                                            <input type="radio" name="gender" ngModel value="Female" required
+                                                #gender="ngModel"><span>Female</span>
+                                        </div>
+                                    </div><br><br>
+                                    <button type="submit" class="btn btn-info text-center mb-5" [disabled]="userData.invalid">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h2 class="modal-title">Update user Record</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form #userData1="ngForm" >
+                    <div class="container text-center">
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-6 ">
+                                        <label>Id:</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="number" [(ngModel)]="userRecordUpdates.userId" name="userId" #userid="ngModel" required
+                                            class="form-control" placeholder="UserId" aria-label="Username"
+                                            aria-describedby="basic-addon1">
+                                        <p class="text-danger float-start"
+                                            *ngIf="userid.errors?.['required'] && (userid.dirty)">*pleace enter
+                                            username</p>
+                                    </div>
+                                </div><br>
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Enter Name:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="text" [(ngModel)]="userRecordUpdates.userName" name="userName" #username="ngModel" required
+                                                minlength="5" maxlength="15" class="form-control" placeholder="UserName"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                            <p class="text-danger float-start"
+                                                *ngIf="username.errors?.['required'] && (username.touched || username.dirty)">
+                                                *pleace enter
+                                                username</p>
+                                            <p class="text-danger float-start" *ngIf="username.errors?.['minlength']">
+                                                *pleace type minimum 5
+                                                charectors.</p>
+                                        </div>
+
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Enter Date of Birth:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="date" [(ngModel)]="userRecordUpdates.userDOB" name="userDOB" #userdateofbirth="ngModel"
+                                                required class="form-control" placeholder="Date of Birth"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                            <p class="text-danger float-start"
+                                                *ngIf="userdateofbirth.errors?.['required'] && (userdateofbirth.dirty)">
+                                                *pleace enter your date of birth</p>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Enter Email:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="email" [(ngModel)]="userRecordUpdates.email" name="email" #useremail="ngModel" required
+                                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control"
+                                                placeholder="email" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                            <p class="text-danger float-start"
+                                                *ngIf="useremail.errors?.['required'] && (useremail.dirty)">*pleace
+                                                enter the email</p>
+                                            <p class="text-danger float-start" *ngIf="useremail.errors?.['pattern']">
+                                                *pleace enter the valid email</p>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Enter Salary INR:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="number" [(ngModel)]="userRecordUpdates.Salary" required name="Salary" #usersalary="ngModel"
+                                                class="form-control" placeholder="INR" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                            <p class="text-danger float-start"
+                                                *ngIf="usersalary.errors?.['required'] && (usersalary.dirty)">*pleace
+                                                enter the amount</p>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <label>Gender:</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input type="radio" [(ngModel)]="userRecordUpdates.gender" required #gender="ngModel" value="Male"
+                                                name="gender"><span>Male</span>&nbsp;
+                                            <input type="radio" name="gender" [(ngModel)]="userRecordUpdates.gender" value="Female" required
+                                                #gender="ngModel"><span>Female</span>
+                                        </div>
+                                    </div><br><br>
+                                    <button type="button" class="btn btn-info text-center mb-5" (click)="updateUserRecords(userData1)" [disabled]="userData1.invalid">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
